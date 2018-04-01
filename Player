@@ -1,0 +1,36 @@
+package project;
+
+import sedgewick.StdDraw;
+
+public class Player implements Draw {
+	private double x,y;
+	/**
+	 * Creates the players
+	 * @param x: x coordinate of the players
+	 * @param y: y coordinate of the players
+	 */
+	public Player (double x,double y){
+		this.x=x;
+		this.y=y;
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.filledSquare(x, y, .04);
+	}
+	public double getX() {
+		return x;
+	}
+	public void setX(double x) {
+		this.x = x;
+	}
+	public double getY() {
+		return y;
+	}
+	public void setY(double y) {
+		this.y = y;
+	}
+	
+	public void redraw(){
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.filledSquare(this.x, this.y, .04);
+		
+	}
+}
