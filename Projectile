@@ -1,0 +1,137 @@
+package project;
+
+import sedgewick.StdDraw;
+
+public class Projectile {
+	public double velocity, vx, vy, v2x, v2y;
+	public double positionx, positiony, position2x, position2y;
+	public double accelerationy;
+	public int angle;
+/**
+ * Generates a projectile taking in the parameters given below
+ * @param velocity: velocity given through the main class
+ * @param angle: angle given through the main class
+ * @param one: player one
+ * @param two: player two
+ */
+
+	public Projectile (int velocity, int angle, Player one, Player two){
+		this.angle = angle;
+		this.velocity = velocity;
+		this.vx = (this.velocity*Math.cos(this.angle*(Math.PI/180)))/1200;
+		this.vy = (this.velocity*Math.sin(this.angle*(Math.PI/180)))/1200;
+
+		accelerationy = -.001;
+		this.positionx = one.getX();
+		this.positiony = one.getY() + 0.06;
+		this.position2x = two.getX();
+		this.position2y = two.getY() + 0.06;
+	}
+/**
+ * Retrieves values, including position and x and y velocities for the sake of movement
+ * @param one: player one
+ * @param two: player two
+ * @param buildings: skyline buildings with heights
+ * @param whichPlayer: boolean to test which player is going
+ * @return
+ */
+	public int Movements(Player one,Player two,Skyline buildings, boolean whichPlayer){
+		if (whichPlayer == true){
+			this.positionx = positionx+vx;
+			this.positiony = positiony+vy;
+			this.vy = vy + accelerationy;
+		}
+		if (whichPlayer == false){
+			this.angle = - this.angle; 
+			this.position2x = position2x-vx;
+			this.position2y = position2y+vy;
+			this.vy = vy + accelerationy;	
+		}
+		if (this.positionx <= 0 || this.positionx >=1 || positiony <= 0 ){
+			Explosion(this.positionx, this.positiony);
+			StdDraw.pause(945);
+			StdDraw.clear();
+			buildings.redraw();
+			one.redraw();
+			two.redraw();
+			StdDraw.show(20);
+			return 2;
+		}
+		if (this.position2x <=0 || this.position2x >=1 || position2y <=0){
+			Explosion(this.position2x, this.position2y);
+			StdDraw.pause(945);
+			StdDraw.clear();
+			buildings.redraw();
+			one.redraw();
+			two.redraw();
+			StdDraw.show(20);
+			return 2;
+		}
+		// hits a player
+		if (whichPlayer == false && this.position2x < (one.getX() + 0.04) && this.position2x > (one.getX() - 0.04) && this.position2y < (one.getY() + 0.04) && this.position2y > (one.getY() -0.04)){
+			Explosion(this.position2x, this.position2y);
+			StdDraw.pause(945);
+			StdDraw.clear();
+			buildings.redraw();
+			one.redraw();
+			two.redraw();
+			StdDraw.show(20);
+			return 1;
+		}
+		// hits a player
+		if (whichPlayer == true && this.positionx < (two.getX() + 0.04) && this.positionx > (two.getX() - 0.04) && this.positiony < (two.getY() + 0.04) && this.positiony > (two.getY() -0.04)){
+			Explosion(this.positionx, this.positiony);
+			StdDraw.pause(945);
+			StdDraw.clear();
+			buildings.redraw();
+			one.redraw();
+			two.redraw();
+			StdDraw.show(20);
+			return 1;
+		}
+
+		for (int i=0; i<5; i++){
+			if (this.positionx < .2*i+.2 && this.positionx > .2*i && this.positiony < (buildings.getSkyline()[i]) && this.positiony > (0)){
+				Explosion(this.positionx, this.positiony);
+				StdDraw.pause(945);
+				StdDraw.clear();
+				buildings.redraw();
+				one.redraw();
+				two.redraw();
+				StdDraw.show(20);
+				return 2;
+			}
+
+		}
+		for (int i=0; i<5; i++){
+			if (this.position2x < .2*i+.2 && this.position2x > .2*i && this.position2y < (buildings.getSkyline()[i]) && this.position2y > (0)){
+				Explosion(this.position2x, this.position2y);
+				StdDraw.pause(945);
+				StdDraw.clear();
+				buildings.redraw();
+				one.redraw();
+				two.redraw();
+				StdDraw.show(20);
+				return 2;
+			}
+
+		}
+		if (whichPlayer == true){
+			StdDraw.filledCircle(this.positionx, this.positiony, .01);
+		}
+		if (whichPlayer==false){
+			StdDraw.filledCircle(this.position2x, this.position2y, .01);
+		}
+		return 0;
+	}
+	/**
+	 * To create an explosion animation
+	 * @param x: position x of projectile
+	 * @param y: position y of projectile
+	 */
+	public void Explosion (double x, double y){
+		StdDraw.show();	
+		StdDraw.picture(x, y, "images/explosion.jpeg", .2, .2);
+	}
+
+}
