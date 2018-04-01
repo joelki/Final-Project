@@ -1,0 +1,9 @@
+package project;
+
+public interface Draw {
+	/**
+	 * Redraw
+	 */
+	public void redraw();
+
+}
