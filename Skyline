@@ -1,0 +1,65 @@
+package project;
+
+import java.awt.Color;
+
+import sedgewick.StdDraw;
+
+public class Skyline implements Draw{
+	private double []heightY;
+	private Color []palette;
+	/**
+	 * Create random values for the height of the buildings and random colors
+	 */
+	public Skyline () {
+		double height = 0;
+		Color[] palette = { StdDraw.BLUE, StdDraw.CYAN, StdDraw.DARK_GRAY,
+				StdDraw.GRAY, StdDraw.GREEN, StdDraw.LIGHT_GRAY,
+				StdDraw.MAGENTA, StdDraw.ORANGE, StdDraw.PINK, StdDraw.RED, StdDraw.YELLOW };
+		this.palette = palette;
+		this.heightY = new double[5];
+		
+		for (int i=0; i<5; i++){
+			height = Math.random()*0.7;
+			heightY[i] = height;
+		}
+/**
+ * Draw the skyline
+ */
+	}
+	public void drawSkylines(){
+		double counterForWidth = 0.1;
+		for (int i=0; i<5; i++){
+			// uncomment the random colors for a cool effect
+	//		double ColorRandom = Math.random()*10; 
+	//		int ColorRandom1 = (int) Math.round(ColorRandom);
+	//		StdDraw.setPenColor(palette[ColorRandom1]); // fix later with new array with colors
+
+			StdDraw.filledRectangle(counterForWidth, heightY[i]/2, .1 , heightY[i]/2);
+			counterForWidth = counterForWidth + 0.2;
+		}
+	}
+	/**
+	 * With the interface, redraw the skylines
+	 */
+	public void redraw(){
+		double counterForWidth = 0.1;
+		for (int i=0; i<5; i++){
+	//		double ColorRandom = Math.random()*10;
+	//		int ColorRandom1 = (int) Math.round(ColorRandom);
+	//		StdDraw.setPenColor(palette[ColorRandom1]); // fix later with new array with colors
+
+			StdDraw.filledRectangle(counterForWidth, heightY[i]/2, .1 , heightY[i]/2);
+			counterForWidth = counterForWidth + 0.2;
+		}
+
+	}
+	/**
+	 * obtain the random heights of the buildings for the main class
+	 * @return
+	 */
+	public double[] getSkyline(){
+		return heightY;
+	}
+
+	
+}
