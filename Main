@@ -1,0 +1,71 @@
+package project;
+
+import cse131.ArgsProcessor;
+import sedgewick.StdDraw;
+
+public class Main {
+	public static void main(String[] args) {
+		ArgsProcessor ap = new ArgsProcessor(args);
+		Skyline buildings = new Skyline();
+		buildings.drawSkylines();
+		Player one = new Player(.05,buildings.getSkyline()[0]+.04);
+		Player two = new Player(.95,buildings.getSkyline()[4]+.04);
+		int isProjectileMoving = 0;
+		while (true){
+			while (true){
+				int angle = 91;
+				while (angle > 90 || angle< -90){
+					angle = ap.nextInt("What is your angle of choice?");
+				}
+				int velocity = -1;
+				while (velocity < 0){
+					velocity = ap.nextInt("What is your velocity of choice?");
+				}
+				Projectile theProjectile = new Projectile(velocity, angle, one, two);	
+				isProjectileMoving = 0;
+				while (isProjectileMoving == 0){
+					StdDraw.clear();
+					buildings.redraw();
+					one.redraw();
+					two.redraw();
+					isProjectileMoving = theProjectile.Movements(one, two,buildings, true);
+
+
+					StdDraw.show(20);
+				}
+				if (isProjectileMoving ==1){
+					StdDraw.show();
+					StdDraw.setPenColor(StdDraw.BLACK);
+					StdDraw.text(.3, .85, "Player 1 won!");
+					break;
+				}
+				angle = ap.nextInt("What is your angle of choice?");
+				velocity = ap.nextInt("What is your velocity of choice?");
+				theProjectile = new Projectile(velocity, angle, one, two);	
+				if (isProjectileMoving == 2){
+					isProjectileMoving = 0;
+				}
+				while (isProjectileMoving == 0){
+					StdDraw.clear();
+					buildings.redraw();
+					one.redraw();
+					two.redraw();
+					isProjectileMoving = theProjectile.Movements(one, two,buildings, false);
+					StdDraw.show(20);
+				}
+				if (isProjectileMoving==1){
+					StdDraw.show();
+					StdDraw.setPenColor(StdDraw.BLACK);
+					StdDraw.text(.7, .85, "Player 2 won!");
+					break;
+				}
+			}
+			buildings = new Skyline();
+			one = new Player(.05,buildings.getSkyline()[0]+.04);
+			two = new Player(.95,buildings.getSkyline()[4]+.04);
+		}
+	}
+
+}
+
+
